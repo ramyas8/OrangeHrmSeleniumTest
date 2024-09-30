@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ef3bdc80-38a4-4157-848e-0ead2223b108" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/orangehrmpages/HomePage.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="2mUIejjA5acyZLEzINC1eEFLqXb" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.LoginTest.executor": "Run",
+    "Application.Test.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "TestNG.BaseTest (1).executor": "Run",
+    "TestNG.BaseTest.executor": "Run",
+    "TestNG.LoginTest (1).executor": "Run",
+    "TestNG.LoginTest.executor": "Run",
+    "TestNG.LoginTest.login (1).executor": "Run",
+    "TestNG.LoginTest.login.executor": "Run",
+    "TestNG.LoginTest.testLogin.executor": "Run",
+    "TestNG.PIMPageTest.addEmp (1).executor": "Run",
+    "TestNG.PIMPageTest.addEmp (2).executor": "Run",
+    "TestNG.PIMPageTest.addEmp.executor": "Run",
+    "TestNG.PIMPageTest.executor": "Run",
+    "git-widget-placeholder": "first-test",
+    "kotlin-language-version-configured": "true",
+    "onboarding.tips.debug.path": "/Users/ramyasri/git/OrangeHrmSeleniumTest/src/main/java/org/example/Main.java",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="OrangeHrmTests" />
+      <recent name="OrangeHrmPages" />
+    </key>
+  </component>
+  <component name="RunManager" selected="TestNG.PIMPageTest.addEmp">
+    <configuration name="BaseTest" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="OrangeHrmSeleniumTest" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="base.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="OrangeHrmTests" />
+      <option name="MAIN_CLASS_NAME" value="base.BaseTest" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BaseTest.login" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="OrangeHrmSeleniumTest" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="OrangeHrmTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="OrangeHrmTests" />
+      <option name="MAIN_CLASS_NAME" value="OrangeHrmTests.BaseTest" />
+      <option name="METHOD_NAME" value="login" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LoginTest" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="OrangeHrmSeleniumTest" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="orangehrmtests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="utilities" />
+      <option name="MAIN_CLASS_NAME" value="orangehrmtests.LoginTest" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PIMPageTest" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="OrangeHrmSeleniumTest" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="orangehrmtests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="orangehrmtests" />
+      <option name="MAIN_CLASS_NAME" value="orangehrmtests.PIMPageTest" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PIMPageTest.addEmp (1)" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="OrangeHrmSeleniumTest" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="orangehrmtests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="orangehrmtests" />
+      <option name="MAIN_CLASS_NAME" value="orangehrmtests.PIMPageTest" />
+      <option name="METHOD_NAME" value="addEmp" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PIMPageTest.addEmp (2)" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="OrangeHrmSeleniumTest" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="orangehrmtests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="orangehrmtests" />
+      <option name="MAIN_CLASS_NAME" value="orangehrmtests.PIMPageTest" />
+      <option name="METHOD_NAME" value="addEmp" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PIMPageTest.addEmp" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="OrangeHrmSeleniumTest" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="orangehrmtests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="orangehrmtests" />
+      <option name="MAIN_CLASS_NAME" value="orangehrmtests.PIMPageTest" />
+      <option name="METHOD_NAME" value="addEmp" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="TestNG.PIMPageTest.addEmp" />
+        <item itemvalue="TestNG.PIMPageTest" />
+        <item itemvalue="TestNG.PIMPageTest.addEmp (2)" />
+        <item itemvalue="TestNG.PIMPageTest.addEmp (1)" />
+        <item itemvalue="TestNG.LoginTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ef3bdc80-38a4-4157-848e-0ead2223b108" name="Changes" comment="" />
+      <created>1727124825066</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1727124825066</updated>
+    </task>
+    <servers />
+  </component>
+</project>
