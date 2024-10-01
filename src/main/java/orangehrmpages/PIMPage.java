@@ -21,7 +21,16 @@ public class PIMPage {
     }
 
     @FindBy(xpath = "(//input[@class='oxd-input oxd-input--active'])[2]")
-    WebElement search_employeeId;
+    WebElement searchEmployeeId;
+
+    @FindBy(xpath = "(//input[@placeholder='Type for hints...'])[1]")
+    WebElement searchEmployeeName;
+
+    @FindBy(xpath = "(//div[contains(text(),'-- Select --')])[2]")
+    WebElement searchJobTitle;
+
+    @FindBy(xpath = "//button[normalize-space()='Search']")
+    WebElement searchButton;
 
     @FindBy(xpath = "//button[text()=' Add ']")
     WebElement addButton;
@@ -101,8 +110,28 @@ public class PIMPage {
 
     }
 
-    public void searchEmployee() {
+    public void searchEmployeeWithId() {
 
+
+        searchEmployeeId.sendKeys();
+        searchButton.click();
+    }
+
+    public void searchEmployeeWithName() {
+        searchEmployeeName.sendKeys();
+        searchButton.click();
+
+    }
+
+    public void searchWithNameAndId() {
+        searchEmployeeId.sendKeys();
+        searchEmployeeName.sendKeys();
+        searchButton.click();
+    }
+
+    public void searchWithJobTitle() {
+        searchJobTitle.sendKeys();
+        searchButton.click();
     }
 
 }
