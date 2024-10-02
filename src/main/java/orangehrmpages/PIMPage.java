@@ -1,5 +1,6 @@
 package orangehrmpages;
 
+import orangehrmabstractcomponents.AbstractComponents;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,12 +11,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
-public class PIMPage {
+public class PIMPage extends AbstractComponents {
 
     WebDriver driver;
 
     public PIMPage(WebDriver driver) {
 
+        super(driver);
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
@@ -83,35 +85,27 @@ public class PIMPage {
     @FindBy(xpath = "//div[@class='oxd-select-wrapper']")
     List<WebElement> searchDropDowns;
 
-    @FindBy(xpath = "//li[@class='oxd-main-menu-item-wrapper']//span[text()='PIM']")
-    WebElement pimPage;
 
     public void addEmployee(String fn, String mn, String ln, int id, String userName, String pass, String confirmPass) throws InterruptedException {
 
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfAllElements(addButton));
+        clickPIM();
+        waitForElementToAppear(addButton);
         addButton.click();
-
-        wait.until(ExpectedConditions.visibilityOfAllElements(firstName));
-
+        waitForElementToAppear(firstName);
         firstName.sendKeys(fn);
         middleName.sendKeys(mn);
         lastName.sendKeys(ln);
        // employeeID.sendKeys(id);
         loginDetailsRadioButton.click();
-        Thread.sleep(3000);
-        wait.until(ExpectedConditions.visibilityOfAllElements(username));
+        waitForElementToAppear(username);
         username.sendKeys(userName);
         password.sendKeys(pass);
         confirmPassword.sendKeys(confirmPass);
-        Thread.sleep(5000);
         saveButton.click();
 
     }
 
     public void searchEmployeeWithId() {
-
 
         searchEmployeeId.sendKeys();
         searchButton.click();
