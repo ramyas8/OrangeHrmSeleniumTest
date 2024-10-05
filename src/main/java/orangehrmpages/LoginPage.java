@@ -26,15 +26,16 @@ public class LoginPage extends AbstractComponents {
     @FindBy(xpath = "//button[@type='submit']")
     WebElement loginButton;
 
-    public void login(String username, String password) {
+    public void login(String username, String password) throws InterruptedException {
         userName.sendKeys(username);
         passwordEle.sendKeys(password);
         loginButton.click();
+        Thread.sleep(5000);
     }
 
     public void goTo()
     {
-        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+        driver.get("https://opensource-demo.orangehrmlive.com");
     }
 
 }

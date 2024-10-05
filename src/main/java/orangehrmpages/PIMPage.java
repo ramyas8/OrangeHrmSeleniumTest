@@ -1,5 +1,6 @@
 package orangehrmpages;
 
+import io.opentelemetry.exporter.logging.SystemOutLogRecordExporter;
 import orangehrmabstractcomponents.AbstractComponents;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -85,10 +86,30 @@ public class PIMPage extends AbstractComponents {
     @FindBy(xpath = "//div[@class='oxd-select-wrapper']")
     List<WebElement> searchDropDowns;
 
+//    @FindBy(xpath = "//span[text()='PIM']")
+//    WebElement pim;
+
+    @FindBy(xpath = "(//span[@class='oxd-text oxd-text--span oxd-main-menu-item--name'])[2]")
+    WebElement pim;
 
     public void addEmployee(String fn, String mn, String ln, int id, String userName, String pass, String confirmPass) throws InterruptedException {
 
-        clickPIM();
+        System.out.println("Reached add employee method and waiting for PIM");
+
+        if (pim != null) {
+            System.out.println("PIM element is not null, attempting to click");
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+            wait.until(ExpectedConditions.elementToBeClickable(pim));  // Wait for PIM to be clickable
+            pim.click();
+        } else {
+            System.out.println("PIM element is null, check locator or initialization");
+        }
+
+
+
+
+        //pim.click();
+        System.out.println("clicked on pim");
         waitForElementToAppear(addButton);
         addButton.click();
         waitForElementToAppear(firstName);
