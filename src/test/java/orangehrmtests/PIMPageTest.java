@@ -13,9 +13,9 @@ import java.util.ArrayList;
 
 public class PIMPageTest extends BaseTest {
 
-    PIMPage pimPage = new PIMPage(driver);
-    ExcelOperations excel = new ExcelOperations();
-    ArrayList data = excel.getData("PIMPageTest");
+    PIMPage pimPage;
+   // ExcelOperations excel = new ExcelOperations();
+   // ArrayList data = excel.getData("PIMPageTest");
 
     public PIMPageTest() throws IOException {
     }
@@ -24,9 +24,11 @@ public class PIMPageTest extends BaseTest {
     public void addEmp() throws InterruptedException, IOException {
 
         loginPage.login("Admin", "admin123");
+
+        pimPage = new PIMPage(driver);
         try
         {
-            pimPage.addEmployee("Testfn", "testmn", "testln", 123, "testun", "testpass", "testpass");
+            pimPage.addEmployee("Testfn", "testmn", "testln",  "testun", "testpass", "testpass");
         }
         catch (InterruptedException e)
         {
@@ -34,11 +36,14 @@ public class PIMPageTest extends BaseTest {
         }
     }
 
-  //  @Test
-  // public void searchEmployeeWithValidId() {
+  @Test
+  public void searchEmployeeWithValidId() throws InterruptedException {
 
-       // pimPage.searchEmployeeWithId();
-   // }
+        loginPage.login("Admin","admin123");
+        pimPage = new PIMPage(driver);
+        pimPage.searchEmployeeWithId("123");
+
+    }
 
 
 }
