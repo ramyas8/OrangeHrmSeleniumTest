@@ -1,5 +1,8 @@
 package orangehrmpages;
 
+import io.opentelemetry.exporter.logging.SystemOutLogRecordExporter;
+import orangehrmabstractcomponents.AbstractComponents;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,18 +13,28 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
-public class PIMPage {
+public class PIMPage extends AbstractComponents {
 
     WebDriver driver;
 
     public PIMPage(WebDriver driver) {
 
+        super(driver);
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
     @FindBy(xpath = "(//input[@class='oxd-input oxd-input--active'])[2]")
-    WebElement search_employeeId;
+    WebElement searchEmployeeId;
+
+    @FindBy(xpath = "(//input[@placeholder='Type for hints...'])[1]")
+    WebElement searchEmployeeName;
+
+    @FindBy(xpath = "(//div[contains(text(),'-- Select --')])[2]")
+    WebElement searchJobTitle;
+
+    @FindBy(xpath = "//button[normalize-space()='Search']")
+    WebElement searchButton;
 
     @FindBy(xpath = "//button[text()=' Add ']")
     WebElement addButton;
@@ -74,35 +87,92 @@ public class PIMPage {
     @FindBy(xpath = "//div[@class='oxd-select-wrapper']")
     List<WebElement> searchDropDowns;
 
-    @FindBy(xpath = "//li[@class='oxd-main-menu-item-wrapper']//span[text()='PIM']")
-    WebElement pimPage;
+    @FindBy(xpath = "//div[@role='table']")
+    WebElement table;
 
-    public void addEmployee(String fn, String mn, String ln, int id, String userName, String pass, String confirmPass) throws InterruptedException {
+    @FindBy(xpath = "//div[@role='row']")
+    List<WebElement> allRows;
+
+    @FindBy(xpath = "//p[text()='Time at Work']")
+    WebElement time;
+//    @FindBy(xpath = "//span[text()='PIM']")
+//    WebElement pim;
+
+    @FindBy(xpath = "(//span[@class='oxd-text oxd-text--span oxd-main-menu-item--name'])[2]")
+    WebElement pim;
+
+    public void addEmployee(String fn, String mn, String ln, String userName,
+                            String pass, String confirmPass) throws InterruptedException {
+
+        System.out.println("Reached the method");
+
+        if (driver == null) {
+            System.out.println("WebDriver is null!");
+            return;
+        } else {
+            System.out.println("WebDriver is initialized properly.");
+        }
 
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfAllElements(addButton));
+        // Wait for the 'Time at Work' element to appear
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        // Check if the element is found and clickable
+        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[text()='Time at Work']")));
+        if (element != null) {
+            System.out.println("Time at Work element found");
+            element.click();
+        } else {
+            System.out.println("Element not found or null");
+            return; // Exit the method if element is null
+        }
+
+        // Check if 'time' is initialized properly
+        if (time == null) {
+            System.out.println("Time element is null");
+        } else {
+            waitForElementToAppear(time);
+            System.out.println("Time element text: " + time.getText());
+        }
+        waitForElementToAppear(time);
+        System.out.println(time.getText());
+        waitForElementToBeClickable(pim);
+        pim.click();
+        waitForElementToAppear(addButton);
         addButton.click();
-
-        wait.until(ExpectedConditions.visibilityOfAllElements(firstName));
-
+        waitForElementToAppear(firstName);
         firstName.sendKeys(fn);
         middleName.sendKeys(mn);
         lastName.sendKeys(ln);
-       // employeeID.sendKeys(id);
         loginDetailsRadioButton.click();
-        Thread.sleep(3000);
-        wait.until(ExpectedConditions.visibilityOfAllElements(username));
+        waitForElementToAppear(username);
         username.sendKeys(userName);
         password.sendKeys(pass);
         confirmPassword.sendKeys(confirmPass);
-        Thread.sleep(5000);
         saveButton.click();
 
     }
 
-    public void searchEmployee() {
+    public void searchEmployeeWithId(String id) throws InterruptedException {
+
+        waitForElementToBeClickable(pim);
+        pim.click();
+        waitForElementToAppear(searchEmployeeId);
+        searchEmployeeId.sendKeys(id);
+        searchButton.click();
+        Thread.sleep(5000);
 
     }
+
+    public void searchEmployeeWithName() {
+
+        waitForElementToBeClickable(pim);
+        pim.click();
+        waitForElementToBeClickable(searchEmployeeName);
+        searchEmployeeName.sendKeys();
+        searchButton.click();
+
+    }
+
 
 }

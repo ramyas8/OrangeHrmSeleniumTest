@@ -1,15 +1,16 @@
 package orangehrmtests;
 
-import base.Base;
+import orangehrmtestcomponents.BaseTest;
 import orangehrmpages.LoginPage;
 import org.testng.annotations.Test;
 
-public class LoginTest extends Base {
+import java.io.IOException;
+
+public class LoginTest extends BaseTest {
 
     @Test
-    public void testLogin() {
+    public void testLogin() throws IOException, InterruptedException {
 
-        LoginPage loginPage = new LoginPage(driver);
         loginPage.login("Admin", "admin123");
     }
 }
