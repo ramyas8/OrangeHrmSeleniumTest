@@ -5,6 +5,9 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import orangehrmpages.LoginPage;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
@@ -12,6 +15,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Duration;
@@ -22,22 +26,7 @@ public class BaseTest {
 
     protected WebDriver driver;
     public LoginPage loginPage;
-    protected ExtentReports extent;
-    protected ExtentTest test;
 
-
-    @BeforeTest
-    public void setupExtent() {
-        // Initialize Extent Reports and configure the HTML report
-        String reportPath = System.getProperty("user.dir") + "//reports//extentReport.html";
-        ExtentSparkReporter reporter = new ExtentSparkReporter(reportPath);
-        reporter.config().setReportName("Automation Test Report");
-        reporter.config().setDocumentTitle("Test Results");
-
-        extent = new ExtentReports();
-        extent.attachReporter(reporter);
-        extent.setSystemInfo("Tester", "Ramya");
-    }
 
 
     public WebDriver initializeDriver() throws InterruptedException, IOException {
@@ -65,6 +54,14 @@ public class BaseTest {
         return driver;
     }
 
+    public String getScreenshot(String testCaseName, WebDriver driver) throws IOException {
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+        File file = new File(System.getProperty("user.dir") + "//reports" + testCaseName + ".png");
+        FileUtils.copyFile(source,file);
+        return System.getProperty("user.dir") + "//reports" + testCaseName + ".png";
+    }
+
     @BeforeMethod
     public LoginPage launchApplication() throws IOException, InterruptedException
     {
@@ -85,9 +82,5 @@ public class BaseTest {
 
     }
 
-    @AfterTest
-    public void flushExtent() {
-        // Write everything to the report
-        extent.flush();
-    }
+
 }
