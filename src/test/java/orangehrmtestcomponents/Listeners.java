@@ -35,7 +35,7 @@ public class Listeners extends BaseTest implements ITestListener {
 //            try {
 //                driver = (WebDriver) result.getTestClass().getRealClass().getField("driver")
 //                        .get(result.getInstance());
-//            } catch (Exception e1) {
+//            } catch (Exception e1) {log
 //                e1.printStackTrace();
 //            }
 
