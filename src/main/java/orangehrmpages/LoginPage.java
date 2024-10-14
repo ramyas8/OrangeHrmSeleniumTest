@@ -26,11 +26,20 @@ public class LoginPage extends AbstractComponents {
     @FindBy(xpath = "//button[@type='submit']")
     WebElement loginButton;
 
+    @FindBy(xpath = "//p[text()='Invalid credentials']")
+    WebElement errorMessage;
+
     public void login(String username, String password) throws InterruptedException {
         userName.sendKeys(username);
         passwordEle.sendKeys(password);
         loginButton.click();
         Thread.sleep(5000);
+    }
+
+    public String getErrorMessage()
+    {
+        waitForElementToAppear(errorMessage);
+        return errorMessage.getText();
     }
 
     public void goTo()
