@@ -1,5 +1,6 @@
 package orangehrmtests;
 
+import com.aventstack.extentreports.Status;
 import orangehrmtestcomponents.BaseTest;
 import orangehrmpages.LoginPage;
 import org.testng.annotations.Test;
@@ -10,6 +11,10 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void testLogin() throws IOException, InterruptedException {
+
+        test = extent.createTest("Login Test - Valid Login");
+
+        test.log(Status.INFO, "Launching the browser and navigating to the login page");
 
         loginPage.login("Admin", "admin123");
     }
