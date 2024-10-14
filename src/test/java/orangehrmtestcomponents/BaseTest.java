@@ -27,8 +27,6 @@ public class BaseTest {
     protected WebDriver driver;
     public LoginPage loginPage;
 
-
-
     public WebDriver initializeDriver() throws InterruptedException, IOException {
 
         Properties prop = new Properties();
@@ -81,6 +79,4 @@ public class BaseTest {
 
 
     }
-
-
 }
