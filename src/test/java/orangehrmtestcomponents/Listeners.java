@@ -31,14 +31,6 @@ public class Listeners extends BaseTest implements ITestListener {
 
             Object testClass = result.getInstance();
             driver = ((BaseTest) testClass).driver;
-
-//            try {
-//                driver = (WebDriver) result.getTestClass().getRealClass().getField("driver")
-//                        .get(result.getInstance());
-//            } catch (Exception e1) {log
-//                e1.printStackTrace();
-//            }
-
             String filePath = null;
             try {
                 filePath = getScreenshot(result.getMethod().getMethodName(),driver);
