@@ -1,9 +1,5 @@
 package orangehrmtestcomponents;
 
-
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import orangehrmpages.LoginPage;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
@@ -26,12 +22,21 @@ public class BaseTest {
 
     protected WebDriver driver;
     public LoginPage loginPage;
+    Properties prop;
+    FileInputStream fis;
+
+    public void loadProperties() throws IOException {
+        if (prop == null) {  // To ensure properties are loaded only once
+            prop = new Properties();
+            fis = new FileInputStream(System.getProperty("user.dir") + "//src//main//resources//GlobalData.properties");
+            prop.load(fis);
+        }
+    }
+
 
     public WebDriver initializeDriver() throws InterruptedException, IOException {
 
-        Properties prop = new Properties();
-        FileInputStream fis = new FileInputStream(System.getProperty("user.dir")+"//src//main//resources//GlobalData.Properties");
-        prop.load(fis);
+        loadProperties();
         String browserName = prop.getProperty("browser");
 
         if(browserName.equalsIgnoreCase("chrome"))
@@ -39,13 +44,14 @@ public class BaseTest {
             driver = new ChromeDriver();
 
         }
-        else if (browserName.equalsIgnoreCase("firefox"))
-        {
-
+        else if (browserName.equalsIgnoreCase("firefox")) {
+            // Initialize Firefox Driver (use WebDriverManager or GeckoDriver)
         }
-        else if (browserName.equalsIgnoreCase("edge"))
-        {
-
+        else if (browserName.equalsIgnoreCase("edge")) {
+            // Initialize Edge Driver (use WebDriverManager or EdgeDriver)
+        }
+        else {
+            throw new RuntimeException("Browser not supported");
         }
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
@@ -67,6 +73,14 @@ public class BaseTest {
         loginPage = new LoginPage(driver);
         loginPage.goTo();
         return loginPage;
+    }
+
+    public void doLogin() throws IOException, InterruptedException {
+
+        loadProperties();
+        String user = prop.getProperty("username");
+        String pass = prop.getProperty("password");
+        loginPage.login(user,pass);
 
     }
 

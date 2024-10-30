@@ -1,58 +1,115 @@
 package orangehrmabstractcomponents;
 
-import org.apache.poi.ss.usermodel.Cell;
+import  org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ExcelOperations {
 
-    public ArrayList<String> getData(String testCaseName) throws IOException {
+        private String filePath;
+        private XSSFWorkbook workbook;
+        private XSSFSheet sheet;
 
-        ArrayList<String> a = new ArrayList<String>();
-        FileInputStream fis = new FileInputStream("//Users//ramyasri//Downloads//OrangeHRMTestData.xlsx");
-        XSSFWorkbook workbook = new XSSFWorkbook(fis);
-        int sheets = workbook.getNumberOfSheets();
+        public ExcelOperations(String filePath, String sheetName) throws IOException
+        {
+            this.filePath = filePath;
+            try (FileInputStream fis = new FileInputStream(filePath)) {
+                workbook = new XSSFWorkbook(fis);
+                sheet = workbook.getSheet(sheetName);
+            }
 
-        for (int i = 0; i < sheets; i++) {
-            if (workbook.getSheetName(i).equalsIgnoreCase("TestData")) {
+        }
 
-                XSSFSheet sheet = workbook.getSheetAt(i);
-                Iterator<Row> rows = sheet.iterator();
-                Row firstRow = rows.next();
-                Iterator<Cell> ce = firstRow.cellIterator();
-                int k = 0;
-                int column = 0;
-                while (ce.hasNext()) ;
-                {
-                    Cell value = ce.next();
-                    if (value.getStringCellValue().equalsIgnoreCase("TestCases")) {
-                        column = k;
-                        //desired column
-                    }
-                    k++;
-                }
+        public int getRowCount()
+        {
+            int rowCount = sheet.getPhysicalNumberOfRows();
+            return rowCount;
+        }
 
-                while (rows.hasNext()) {
-                    Row r = rows.next();
-                    if (r.getCell(column).getStringCellValue().equalsIgnoreCase(testCaseName)) {
-                        Iterator<Cell> cv = r.cellIterator();
-                        while (cv.hasNext()) {
-                            Cell c = cv.next();
+        public int getColCount()
+        {
+            XSSFRow row = sheet.getRow(0);
+            int colCount = row.getLastCellNum();
+            return colCount;
+        }
 
-                            a.add(c.getStringCellValue());
-                        }
-                    }
-                }
+    public String getCellData(int rowIndex, int colIndex) {
+        Row row = sheet.getRow(rowIndex);
+        Cell cell = row.getCell(colIndex);
+        DataFormatter formatter = new DataFormatter();
+        return formatter.formatCellValue(cell);
+    }
 
+        public void setCellData(int rowIndex, int colIndex, String value) throws IOException {
+            Row row = sheet.getRow(rowIndex);
+            Cell cell = row.createCell(colIndex);
+            cell.setCellValue(value);
+            FileOutputStream fos = new FileOutputStream(filePath);
+            workbook.write(fos);
+            fos.close();
+        }
+
+    public int getLastRowNum() {
+        return sheet.getLastRowNum();
+    }
+
+    public int getColumnIndex(String headerName) {
+        Row headerRow = sheet.getRow(0); // Assuming the first row contains headers
+        for (int i = 0; i < headerRow.getPhysicalNumberOfCells(); i++) {
+            if (headerRow.getCell(i).getStringCellValue().equalsIgnoreCase(headerName)) {
+                return i; // Return the index of the matching column
             }
         }
-    return a;
+        return -1; // Return -1 if header not found
+    }
+
+    public int getRowNumber(String firstName, String lastName) {
+        int rowCount = getRowCount();
+        for (int i = 1; i < rowCount; i++) {  // Start from row 1, assuming row 0 is the header
+            String cellFirstName = getCellData(i, getColumnIndex("firstName")); // Adjust "firstName" column name if necessary
+            String cellLastName = getCellData(i, getColumnIndex("lastName")); // Adjust "lastName" column name if necessary
+            if (cellFirstName.equalsIgnoreCase(firstName) && cellLastName.equalsIgnoreCase(lastName)) {
+                return i;  // Return the row index where the data matches
+            }
+        }
+        return -1;  // Return -1 if no match found
+    }
+
+
+
+    public Object[][] getData(String filePath, String sheetName) throws IOException {
+
+        Object[][] data = null;
+
+        int rowCount = getRowCount();
+        int colCount = getColCount();
+
+        data = new Object[rowCount - 1][colCount];
+
+        for (int i = 1; i < rowCount; i++) {  // Start from 1 to skip header row
+            //Row currentRow = sheet.getRow(i);
+            for (int j = 0; j < colCount; j++) {
+              //  Cell cell = currentRow.getCell(j);
+                data[i - 1][j] = getCellData(i, j);  // Fill the data array
+            }
+        }
+        //workbook.close();
+       // fis.close();
+        return data;
+    }
+
 
     }
-}
+

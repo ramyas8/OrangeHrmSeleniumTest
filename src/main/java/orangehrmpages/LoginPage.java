@@ -29,17 +29,45 @@ public class LoginPage extends AbstractComponents {
     @FindBy(xpath = "//p[text()='Invalid credentials']")
     WebElement errorMessage;
 
+    @FindBy(xpath = "//input[@name='username']/parent::div/following-sibling::span")
+    WebElement userNameRequiredMessage;
+
+    @FindBy(xpath = "//input[@name='password']/parent::div/following-sibling::span")
+    WebElement passwordRequiredMessage;
+
+    @FindBy(xpath = "//span[text()='Dashboard']")
+    WebElement dashboard;
+
     public void login(String username, String password) throws InterruptedException {
+
         userName.sendKeys(username);
         passwordEle.sendKeys(password);
         loginButton.click();
-        Thread.sleep(5000);
     }
 
     public String getErrorMessage()
     {
         waitForElementToAppear(errorMessage);
         return errorMessage.getText();
+    }
+
+    public boolean getUserRequiredMessage()
+    {
+        waitForElementToAppear(userNameRequiredMessage);
+        return userNameRequiredMessage.isDisplayed();
+    }
+
+    public boolean getPasswordRequiredMessage()
+    {
+        waitForElementToAppear(passwordRequiredMessage);
+        return passwordRequiredMessage.isDisplayed();
+    }
+
+
+    public boolean isDashboardDisplayed()
+    {
+        waitForElementToAppear(dashboard);
+        return dashboard.isDisplayed();
     }
 
     public void goTo()
