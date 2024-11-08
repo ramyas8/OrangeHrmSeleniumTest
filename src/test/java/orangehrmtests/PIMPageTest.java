@@ -89,8 +89,6 @@ public class PIMPageTest extends BaseTest {
         Assert.assertEquals(displayedEmployeeDetails.get("lastName"), lastName, "Last name does not match");
         Assert.assertEquals(displayedEmployeeDetails.get("employeeId"), empId, "Employee ID does not match");
 
-
-
     }
 
 

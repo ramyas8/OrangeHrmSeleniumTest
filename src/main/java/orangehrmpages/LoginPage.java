@@ -1,6 +1,7 @@
 package orangehrmpages;
 
 import orangehrmabstractcomponents.AbstractComponents;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -38,6 +39,9 @@ public class LoginPage extends AbstractComponents {
     @FindBy(xpath = "//span[text()='Dashboard']")
     WebElement dashboard;
 
+    @FindBy(xpath = "//p[text()='Forgot your password? ']")
+    WebElement forgotYourPassword;
+
     public void login(String username, String password) throws InterruptedException {
 
         userName.sendKeys(username);
@@ -51,16 +55,16 @@ public class LoginPage extends AbstractComponents {
         return errorMessage.getText();
     }
 
-    public boolean getUserRequiredMessage()
+    public String getUsernameRequiredMessage()
     {
         waitForElementToAppear(userNameRequiredMessage);
-        return userNameRequiredMessage.isDisplayed();
+        return userNameRequiredMessage.getText();
     }
 
-    public boolean getPasswordRequiredMessage()
+    public String getPasswordRequiredMessage()
     {
         waitForElementToAppear(passwordRequiredMessage);
-        return passwordRequiredMessage.isDisplayed();
+        return passwordRequiredMessage.getText();
     }
 
 
@@ -68,6 +72,17 @@ public class LoginPage extends AbstractComponents {
     {
         waitForElementToAppear(dashboard);
         return dashboard.isDisplayed();
+    }
+
+    public @Nullable String isPasswordFieldMasked()
+    {
+        waitForElementToAppear(passwordEle);
+        return passwordEle.getAttribute("type");
+    }
+
+    public void clickForgotYourPassword()
+    {
+        forgotYourPassword.click();
     }
 
     public void goTo()
