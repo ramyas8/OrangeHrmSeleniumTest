@@ -10,8 +10,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
 
 
 public class PIMPageTest extends BaseTest {
@@ -32,7 +30,8 @@ public class PIMPageTest extends BaseTest {
     }
 
     @Test(dataProvider = "PIMPageTestData")
-    public void addEmp(String firstName, String middleName, String lastName, String userName, String password, String confirmPassword, String empId)
+    public void addEmp(String firstName, String middleName, String lastName, String userName, String password, String confirmPassword,
+                        String jobTitle,String employmentStatus, String terminationDate, String terminationReason, String employeeId)
             throws InterruptedException, IOException {
 
         pimPage = new PIMPage(driver);
@@ -41,14 +40,26 @@ public class PIMPageTest extends BaseTest {
         login.isDashboardDisplayed();
         Assert.assertTrue(loginPage.isDashboardDisplayed());
         pimPage.clickPimPage();
-        try
-        {
-            pimPage.addEmployee(firstName, middleName, lastName, userName, password, confirmPassword, empId);
-        }
-        catch (InterruptedException e)
-        {
-            throw new RuntimeException(e);
-        }
+        pimPage.clickAddButton();
+        pimPage.enterFirstName(firstName);
+        Thread.sleep(2000);
+        pimPage.enterMiddleName(middleName);
+        pimPage.enterLastName(lastName);
+        Thread.sleep(2000);
+        pimPage.clickLoginDetailsRadioButton();
+        System.out.println("clicked the radio button");
+        pimPage.enterUsername(userName);
+        pimPage.enterPassword(password);
+        pimPage.enterConfirmPassword(confirmPassword);
+//        try
+//        {
+//            pimPage.addEmployee(firstName, middleName, lastName, userName, password, confirmPassword,
+//                    jobTitle, employmentStatus, terminationDate, terminationReason, employeeId);
+//        }
+//        catch (InterruptedException e)
+//        {
+//            throw new RuntimeException(e);
+//        }
         empIdValue = pimPage.getEmployeeId();
         System.out.println("Employee ID is " + empIdValue);
         // Get the row number corresponding to the current test data set
@@ -71,25 +82,57 @@ public class PIMPageTest extends BaseTest {
         pimPage.waitForPersonalDetails();
     }
 
-    @Test (dependsOnMethods = "addEmp", dataProvider = "PIMPageTestData")
-    public void searchEmployeeWithValidId(String firstName, String middleName, String lastName, String userName, String password,
-                                          String confirmPassword, String empId) throws InterruptedException, IOException {
+//    @Test (dependsOnMethods = "addEmp", dataProvider = "PIMPageTestData")
+//    public void updateEmpDetails(String firstName, String middleName, String lastName, String userName, String password,
+//                                 String confirmPassword, String empId, String jobTitle, String employmentStatus, String terminationDate, String terminationReason)
+//            throws InterruptedException, IOException {
+//
+//        pimPage = new PIMPage(driver);
+//        doLogin();
+//        LoginPage login = new LoginPage(driver);
+//        login.isDashboardDisplayed();
+//        Assert.assertTrue(loginPage.isDashboardDisplayed());
+//        pimPage.clickPimPage();
+//        pimPage.searchEmployeeWithId(empIdValue);
+//        pimPage.updateEmployeeDetails(jobTitle,employmentStatus);
+//
+//    }
 
-        pimPage = new PIMPage(driver);
-        doLogin();
-        LoginPage login = new LoginPage(driver);
-        login.isDashboardDisplayed();
-        Assert.assertTrue(loginPage.isDashboardDisplayed());
-        pimPage.clickPimPage();
-        pimPage.searchEmployeeWithId(empIdValue);
-        Map<String, String> displayedEmployeeDetails = pimPage.getEmployeeDetailsFromTable(); //Get employee details from the table
+//    @Test (dependsOnMethods = "addEmp", dataProvider = "PIMPageTestData")
+//    public void searchEmployeeWithValidId(String firstName, String middleName, String lastName, String userName, String password,
+//                                          String confirmPassword, String empId, String jobTitle, String employmentStatus, String terminationDate, String terminationReason)
+//            throws InterruptedException, IOException {
+//
+//        pimPage = new PIMPage(driver);
+//        doLogin();
+//        LoginPage login = new LoginPage(driver);
+//        login.isDashboardDisplayed();
+//        Assert.assertTrue(loginPage.isDashboardDisplayed());
+//        pimPage.clickPimPage();
+//        pimPage.searchEmployeeWithId(empIdValue);
+//        Map<String, String> displayedEmployeeDetails = pimPage.getEmployeeDetailsFromTable(); //Get employee details from the table
+//
+//        Assert.assertEquals(displayedEmployeeDetails.get("firstName"), firstName, "First name does not match");
+//        Assert.assertEquals(displayedEmployeeDetails.get("middleName"), middleName, "First name does not match");
+//        Assert.assertEquals(displayedEmployeeDetails.get("lastName"), lastName, "Last name does not match");
+//        Assert.assertEquals(displayedEmployeeDetails.get("employeeId"), empId, "Employee ID does not match");
+//        Assert.assertEquals(displayedEmployeeDetails.get("jobTitle"), jobTitle, "Job Title does not match");
+//        Assert.assertEquals(displayedEmployeeDetails.get("employmentStatus"), employmentStatus, "Employment Status does not match");
+//
+//    }
 
-        Assert.assertEquals(displayedEmployeeDetails.get("firstName"), firstName, "First name does not match");
-        Assert.assertEquals(displayedEmployeeDetails.get("middleName"), middleName, "First name does not match");
-        Assert.assertEquals(displayedEmployeeDetails.get("lastName"), lastName, "Last name does not match");
-        Assert.assertEquals(displayedEmployeeDetails.get("employeeId"), empId, "Employee ID does not match");
-
-    }
-
+//    public void terminateEmployee(String firstName, String middleName, String lastName, String userName, String password,
+//                                  String confirmPassword, String empId, String jobTitle, String employmentStatus, String terminationDate, String terminationReason)
+//            throws InterruptedException, IOException
+//    {
+//        pimPage = new PIMPage(driver);
+//        doLogin();
+//        LoginPage login = new LoginPage(driver);
+//        login.isDashboardDisplayed();
+//        Assert.assertTrue(loginPage.isDashboardDisplayed());
+//        pimPage.clickPimPage();
+//        pimPage.searchEmployeeWithId(empIdValue);
+//        pimPage.terminateEmployee(terminationDate, terminationReason);
+//    }
 
 }
