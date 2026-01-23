@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class LoginTest extends BaseTest {
 
-    private static final String excelFilePath = "//Users//ramyasri//Downloads//OrangeHRMTestData.xlsx";
+    private static final String excelFilePath = "//Users//ramya//Downloads//OrangeHRMTestData.xlsx";
 
     @DataProvider(name = "LoginTestData")
     public Object[][] excelDataProvider() throws IOException {
@@ -56,6 +56,9 @@ public class LoginTest extends BaseTest {
     public void testPasswordFieldIsMasked() {
 
         // Verify if the 'type' attribute of the password field is set to 'password'
+        //Failing intentionally to check screenshot!
+        //Password field is not masked!
+        //password
         String fieldType = loginPage.isPasswordFieldMasked();
         Assert.assertEquals(fieldType, "password", "Password field is not masked!");
     }
