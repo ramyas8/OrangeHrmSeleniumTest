@@ -296,8 +296,8 @@ public class PIMPage extends AbstractComponents {
         userNameEle.sendKeys(userName);
         passwordEle.sendKeys(pass);
         confirmPasswordEle.sendKeys(confirmPass);
-        //saveButton.click();
-        //waitForPersonalDetails();
+        saveButton.click();
+        waitForPersonalDetails();
 
     }
 
