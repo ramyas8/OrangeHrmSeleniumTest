@@ -42,7 +42,7 @@ src
 ### Tech Stack
 
 - **Language**: Java 20
-- **Automation Tool**: Selenium WebDriver (v4.25.0)
+- **Automation Tool**: Selenium WebDriver
 - **Test Runner**: TestNG
 - **Build Tool**: Maven
 - **IDE**: IntelliJ IDEA
