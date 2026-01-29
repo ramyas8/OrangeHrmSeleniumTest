@@ -1,26 +1,25 @@
 package orangehrmtests;
 
-import com.aventstack.extentreports.Status;
 import orangehrmabstractcomponents.ExcelOperations;
 import orangehrmpages.ForgotPasswordPage;
-import orangehrmtestcomponents.BaseTest;
 import orangehrmpages.LoginPage;
+import orangehrmtestcomponents.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 
+
 public class LoginTest extends BaseTest {
 
-    private static final String excelFilePath = "//Users//ramya//Downloads//OrangeHRMTestData.xlsx";
 
     @DataProvider(name = "LoginTestData")
     public Object[][] excelDataProvider() throws IOException {
-
+        String fileName = "OrangeHrmData.xlsx";
         String sheetName = "LoginTestData"; // Specify the sheet name for valid login data
-        ExcelOperations excOps = new ExcelOperations(excelFilePath, sheetName);
-        return excOps.getData(excelFilePath, sheetName);
+        ExcelOperations excOps = new ExcelOperations(fileName, sheetName);
+        return excOps.getData();
 
     }
 
@@ -55,17 +54,12 @@ public class LoginTest extends BaseTest {
     @Test
     public void testPasswordFieldIsMasked() {
 
-        // Verify if the 'type' attribute of the password field is set to 'password'
-        //Failing intentionally to check screenshot!
-        //Password field is not masked!
-        //password
         String fieldType = loginPage.isPasswordFieldMasked();
         Assert.assertEquals(fieldType, "password", "Password field is not masked!");
     }
 
     @Test
-    public void testForgotPasswordLink()
-    {
+    public void testForgotPasswordLink() {
 
         LoginPage loginPage = new LoginPage(driver);
 

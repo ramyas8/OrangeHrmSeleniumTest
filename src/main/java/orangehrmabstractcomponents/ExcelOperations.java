@@ -1,65 +1,88 @@
 package orangehrmabstractcomponents;
 
-import  org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class ExcelOperations {
 
-        private String filePath;
-        private XSSFWorkbook workbook;
-        private XSSFSheet sheet;
+    private String filePath;
+    private XSSFWorkbook workbook;
+    private XSSFSheet sheet;
+    private String currentSheetName;
 
-        public ExcelOperations(String filePath, String sheetName) throws IOException
-        {
-            this.filePath = filePath;
-            try (FileInputStream fis = new FileInputStream(filePath)) {
-                workbook = new XSSFWorkbook(fis);
-                sheet = workbook.getSheet(sheetName);
-            }
+    public static final String DATA_PATH = System.getProperty("user.dir") + File.separator + "src" +
+            File.separator + "main" + File.separator + "resources" +
+            File.separator + "data" + File.separator;
 
-        }
+    public ExcelOperations(String fileName, String sheetName) throws IOException {
+        this.filePath = DATA_PATH + fileName;
+        this.currentSheetName = sheetName;
+        loadWorkbook();
+    }
 
-        public int getRowCount()
-        {
-            int rowCount = sheet.getPhysicalNumberOfRows();
-            return rowCount;
-        }
+    private void loadWorkbook() throws IOException {
+        FileInputStream fis = new FileInputStream(this.filePath);
+        this.workbook = new XSSFWorkbook(fis);
+        this.sheet = workbook.getSheet(currentSheetName);
+        fis.close();
+    }
 
-        public int getColCount()
-        {
-            XSSFRow row = sheet.getRow(0);
-            int colCount = row.getLastCellNum();
-            return colCount;
-        }
+
+    public int getRowCount() {
+        int rowCount = sheet.getPhysicalNumberOfRows();
+        return rowCount;
+    }
+
+    public int getColCount() {
+        XSSFRow row = sheet.getRow(0);
+        int colCount = row.getLastCellNum();
+        return colCount;
+    }
 
     public String getCellData(int rowIndex, int colIndex) {
         Row row = sheet.getRow(rowIndex);
+        if (row == null) return "";
         Cell cell = row.getCell(colIndex);
         DataFormatter formatter = new DataFormatter();
         return formatter.formatCellValue(cell);
     }
 
-        public void setCellData(int rowIndex, int colIndex, String value) throws IOException {
-            Row row = sheet.getRow(rowIndex);
-            Cell cell = row.createCell(colIndex);
-            cell.setCellValue(value);
-            FileOutputStream fos = new FileOutputStream(filePath);
-            workbook.write(fos);
-            fos.close();
+    public void setCellData(int rowIndex, int colIndex, String value) throws IOException {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new IOException("Excel file missing at: " + filePath);
         }
+        // 1. Re-open the file to ensure the workbook is fresh and active
+        FileInputStream fis = new FileInputStream(file);
+        XSSFWorkbook writeWorkbook = new XSSFWorkbook(fis);
+        XSSFSheet writeSheet = writeWorkbook.getSheet(currentSheetName);
+        fis.close();
+
+        // 2. Perform the update
+        Row row = writeSheet.getRow(rowIndex);
+        if (row == null) row = writeSheet.createRow(rowIndex);
+        Cell cell = row.createCell(colIndex);
+        cell.setCellValue(value);
+
+        // 3. Write and close
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            writeWorkbook.write(fos);
+            fos.flush(); // Force write to disk
+        } finally {
+            writeWorkbook.close();
+        }
+        // 4. Update the local sheet/workbook object so subsequent reads see the change
+        loadWorkbook();
+    }
 
     public int getLastRowNum() {
         return sheet.getLastRowNum();
@@ -77,9 +100,12 @@ public class ExcelOperations {
 
     public int getRowNumber(String firstName, String lastName) {
         int rowCount = getRowCount();
+        int firstNameCol = getColumnIndex("firstName");
+        int lastNameCol = getColumnIndex("lastName");
+
         for (int i = 1; i < rowCount; i++) {  // Start from row 1, assuming row 0 is the header
-            String cellFirstName = getCellData(i, getColumnIndex("firstName")); // Adjust "firstName" column name if necessary
-            String cellLastName = getCellData(i, getColumnIndex("lastName")); // Adjust "lastName" column name if necessary
+            String cellFirstName = getCellData(i, firstNameCol); // Adjust "firstName" column name if necessary
+            String cellLastName = getCellData(i, lastNameCol); // Adjust "lastName" column name if necessary
             if (cellFirstName.equalsIgnoreCase(firstName) && cellLastName.equalsIgnoreCase(lastName)) {
                 return i;  // Return the row index where the data matches
             }
@@ -88,28 +114,20 @@ public class ExcelOperations {
     }
 
 
-
-    public Object[][] getData(String filePath, String sheetName) throws IOException {
-
-        Object[][] data = null;
-
+    public Object[][] getData() throws IOException {
         int rowCount = getRowCount();
         int colCount = getColCount();
+        Object[][] data = new Object[rowCount - 1][colCount];
 
-        data = new Object[rowCount - 1][colCount];
-
-        for (int i = 1; i < rowCount; i++) {  // Start from 1 to skip header row
-            //Row currentRow = sheet.getRow(i);
+        for (int i = 1; i < rowCount; i++) {
             for (int j = 0; j < colCount; j++) {
-              //  Cell cell = currentRow.getCell(j);
-                data[i - 1][j] = getCellData(i, j);  // Fill the data array
+                data[i - 1][j] = getCellData(i, j);
             }
         }
-        //workbook.close();
-       // fis.close();
+
         return data;
     }
 
 
-    }
+}
 

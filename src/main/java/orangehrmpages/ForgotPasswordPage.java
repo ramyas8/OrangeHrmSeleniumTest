@@ -18,20 +18,18 @@ public class ForgotPasswordPage extends AbstractComponents {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(name ="username")
+    @FindBy(name = "username")
     WebElement fp_username;
 
     @FindBy(xpath = "//h6[text()='Reset Password']")
     WebElement resetPassword;
 
-    public boolean isForgotPasswordPageDisplayed()
-    {
+    public boolean isForgotPasswordPageDisplayed() {
         waitForElementToAppear(resetPassword);
         return resetPassword.isDisplayed();
     }
 
-    public boolean isUsernameFieldDisplayed()
-    {
+    public boolean isUsernameFieldDisplayed() {
         waitForElementToAppear(fp_username);
         return fp_username.isDisplayed();
     }

@@ -49,44 +49,37 @@ public class LoginPage extends AbstractComponents {
         loginButton.click();
     }
 
-    public String getErrorMessage()
-    {
+    public String getErrorMessage() {
         waitForElementToAppear(errorMessage);
         return errorMessage.getText();
     }
 
-    public String getUsernameRequiredMessage()
-    {
+    public String getUsernameRequiredMessage() {
         waitForElementToAppear(userNameRequiredMessage);
         return userNameRequiredMessage.getText();
     }
 
-    public String getPasswordRequiredMessage()
-    {
+    public String getPasswordRequiredMessage() {
         waitForElementToAppear(passwordRequiredMessage);
         return passwordRequiredMessage.getText();
     }
 
 
-    public boolean isDashboardDisplayed()
-    {
+    public boolean isDashboardDisplayed() {
         waitForElementToAppear(dashboard);
         return dashboard.isDisplayed();
     }
 
-    public @Nullable String isPasswordFieldMasked()
-    {
+    public @Nullable String isPasswordFieldMasked() {
         waitForElementToAppear(passwordEle);
         return passwordEle.getAttribute("type");
     }
 
-    public void clickForgotYourPassword()
-    {
+    public void clickForgotYourPassword() {
         forgotYourPassword.click();
     }
 
-    public void goTo()
-    {
+    public void goTo() {
         driver.get("https://opensource-demo.orangehrmlive.com");
     }
 

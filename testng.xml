@@ -6,19 +6,25 @@
         <listener class-name="orangehrmtestcomponents.Listeners"></listener>
     </listeners>
 
-    <!--
-    <test name="PIMPageTest">
+
+    <test name="UpdateEmployeeDebug">
         <classes>
-            <class name="orangehrmtests.PIMPageTest"/>
+            <class name="orangehrmtests.PIMPageTest">
+                <methods>
+                    <include name="terminateEmployee"/>
+                </methods>
+            </class>
         </classes>
     </test>
-    -->
+
+
+    <!--
     <test name="LoginTest">
         <classes>
             <class name="orangehrmtests.LoginTest"/>
         </classes>
     </test>
-
+    -->
 
     <!--
      <test name="Regression1">

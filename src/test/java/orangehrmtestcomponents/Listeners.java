@@ -1,53 +1,68 @@
 package orangehrmtestcomponents;
 
-
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
+import orangehrmresources.ExtentReporter;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import orangehrmresources.ExtentReporter;
-
 import java.io.IOException;
 
-public class Listeners extends BaseTest implements ITestListener {
+public class Listeners implements ITestListener {
 
-        ExtentTest test;
-       ExtentReports extent = ExtentReporter.getReportObject();
+    ExtentReports extent = ExtentReporter.getReportObject();
 
-        public void onTestStart(ITestResult result) {
-          test = extent.createTest(result.getMethod().getMethodName());
+    // This is the "Thread Safe" container for the tests
+    ThreadLocal<ExtentTest> extentTest = new ThreadLocal<ExtentTest>();
+    WebDriver driver;
+
+    @Override
+    public void onTestStart(ITestResult result) {
+        // Logic to make test names more descriptive in the report
+        String testName = result.getMethod().getMethodName();
+        if (result.getParameters().length > 0) {
+            testName += " (" + result.getParameters()[0].toString() + ")";
         }
 
-        public void onTestSuccess(ITestResult result) {
-            test.log(Status.PASS, "Test Passed");
+        ExtentTest test = extent.createTest(testName);
+        extentTest.set(test); // Unique lane for this specific test execution
+    }
+
+    @Override
+    public void onTestSuccess(ITestResult result) {
+        extentTest.get().log(Status.PASS, "Test Passed Successfully");
+    }
+
+    @Override
+    public void onTestFailure(ITestResult result) {
+        extentTest.get().fail(result.getThrowable());
+
+        try {
+
+            driver = (WebDriver) result.getTestClass().getRealClass().getField("driver")
+                    .get(result.getInstance());
+        } catch (Exception e1) {
+            // If reflection fails, we log it but don't crash the whole suite
+            System.out.println("Listener could not find the driver field: " + e1.getMessage());
         }
 
-        public void onTestFailure(ITestResult result) {
-            test.fail(result.getThrowable());
-
-            Object testClass = result.getInstance();
-            driver = ((BaseTest) testClass).driver;
-            String filePath = null;
+        if (driver != null) {
             try {
-                filePath = getScreenshot(result.getMethod().getMethodName(),driver);
+
+                BaseTest bt = new BaseTest();
+                String filePath = bt.getScreenshot(result.getMethod().getMethodName(), driver);
+                extentTest.get().addScreenCaptureFromPath(filePath, result.getMethod().getMethodName());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
-            test.addScreenCaptureFromPath(filePath,result.getMethod().getMethodName());
-        }
-
-        public void onTestSkipped(ITestResult result) {
-        }
-
-        public void onStart(ITestContext context) {
-
-        }
-
-        public void onFinish(ITestContext context) {
-            extent.flush();
         }
     }
+
+    @Override
+    public void onFinish(ITestContext context) {
+        extent.flush();
+    }
+}
