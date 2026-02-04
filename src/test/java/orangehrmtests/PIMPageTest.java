@@ -30,8 +30,8 @@ public class PIMPageTest extends BaseTest {
                        String jobTitle, String employmentStatus, String terminationDate, String terminationReason, String employeeId)
             throws InterruptedException, IOException {
 
+        loginAndNavigateTo("PIM", prop.getProperty("username"), prop.getProperty("password"));
         pimPage = new PIMPage(driver);
-        pimPage.clickPimPage();
         pimPage.addEmployee(firstName, middleName, lastName, userName, password, confirmPassword,
                 jobTitle, employmentStatus, terminationDate, terminationReason, employeeId);
         String newId = pimPage.getEmployeeId();
@@ -39,28 +39,33 @@ public class PIMPageTest extends BaseTest {
         int rowIndex = excOps.getRowNumber(firstName, lastName);
         excOps.setCellData(rowIndex, excOps.getColumnIndex("employeeId"), newId);
         pimPage.clickSaveButton();
-        pimPage.waitForPersonalDetails();
+        Assert.assertTrue(pimPage.isPersonalDetailsDisplayed(), "Failed to redirect to Personal Details after adding employee!");
 
     }
 
-    @Test(dataProvider = "PIMPageTestData", priority = 2)
+    @Test(dataProvider = "PIMPageTestData", priority = 2, dependsOnMethods = "addEmp")
     public void updateEmpDetails(String firstName, String middleName, String lastName, String userName, String password,
                                  String confirmPassword, String jobTitle, String employmentStatus, String terminationDate, String terminationReason, String employeeId)
             throws InterruptedException, IOException {
+        loginAndNavigateTo("PIM", prop.getProperty("username"), prop.getProperty("password"));
         pimPage = new PIMPage(driver);
         // Uses existingId from Excel (column 10)
         pimPage.searchEmployeeWithId(employeeId);
         pimPage.updateEmployeeDetails(jobTitle, employmentStatus);
+        String toastMessage = pimPage.getToastMessage();
+        Assert.assertTrue(toastMessage.contains("Successfully Updated"), "Update toast message not displayed!");
 
     }
 
-    @Test(dataProvider = "PIMPageTestData", priority = 3)
+    @Test(dataProvider = "PIMPageTestData", priority = 3, dependsOnMethods = "updateEmpDetails")
     public void terminateEmployee(String firstName, String middleName, String lastName, String userName, String password,
                                   String confirmPassword, String jobTitle, String employmentStatus, String terminationDate, String terminationReason, String employeeId)
             throws InterruptedException, IOException {
+        loginAndNavigateTo("PIM", prop.getProperty("username"), prop.getProperty("password"));
         pimPage = new PIMPage(driver);
         pimPage.searchEmployeeWithId(employeeId);
         pimPage.terminateEmployee(terminationDate, terminationReason);
+        Assert.assertEquals(pimPage.getToastMessage(), "Successfully Updated", "Termination failed!");
     }
 
 

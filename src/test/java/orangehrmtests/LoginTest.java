@@ -24,29 +24,30 @@ public class LoginTest extends BaseTest {
     }
 
     @Test(dataProvider = "LoginTestData")
-    public void testLogin(String username, String password, String expectedMessage) throws IOException, InterruptedException {
+    public void testLogin(String testCaseName, String username, String password, String expectedMessage) throws IOException, InterruptedException {
 
+        System.out.println("Executing Test: " + testCaseName);
         loginPage.login(username, password);
 
         if (expectedMessage.equalsIgnoreCase("Success")) {
-            Assert.assertTrue(loginPage.isDashboardDisplayed());
+            Assert.assertTrue(loginPage.isDashboardDisplayed(), "Login failed for: " + testCaseName);
         } else {
             // Check if error is due to both fields being blank
             if (username.isEmpty() && password.isEmpty()) {
-                Assert.assertEquals(loginPage.getUsernameRequiredMessage(), "Required", "Expected 'Required' for blank username.");
-                Assert.assertEquals(loginPage.getPasswordRequiredMessage(), "Required", "Expected 'Required' for blank password.");
+                Assert.assertEquals(loginPage.getUsernameRequiredMessage(), expectedMessage, "Expected 'Required' for blank username." + testCaseName);
+                Assert.assertEquals(loginPage.getPasswordRequiredMessage(), expectedMessage, "Expected 'Required' for blank password." + testCaseName);
             }
             // Check if only username is blank
             else if (username.isEmpty()) {
-                Assert.assertEquals(loginPage.getUsernameRequiredMessage(), "Required", "Expected 'Required' for blank username.");
+                Assert.assertEquals(loginPage.getUsernameRequiredMessage(), expectedMessage, "Expected 'Required' for blank username." + testCaseName);
             }
             // Check if only password is blank
             else if (password.isEmpty()) {
-                Assert.assertEquals(loginPage.getPasswordRequiredMessage(), "Required", "Expected 'Required' for blank password.");
+                Assert.assertEquals(loginPage.getPasswordRequiredMessage(), expectedMessage, "Expected 'Required' for blank password." + testCaseName);
             }
             // For invalid username and/or password
             else {
-                Assert.assertEquals("Invalid credentials", loginPage.getErrorMessage());
+                Assert.assertEquals(loginPage.getErrorMessage(), expectedMessage, "Invalid credentials alert failure in: " + testCaseName);
             }
         }
     }
@@ -60,8 +61,6 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void testForgotPasswordLink() {
-
-        LoginPage loginPage = new LoginPage(driver);
 
         // Click on the 'Forgot Password' link
         loginPage.clickForgotYourPassword();

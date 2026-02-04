@@ -215,9 +215,16 @@ public class PIMPage extends AbstractComponents {
         waitForElementToAppear(personalDetails);
     }
 
-    public void waitForPersonalDetails() //remove this method later after modifying the tests
-    {
-        waitForElementToAppear(personalDetails);
+    public boolean isPersonalDetailsDisplayed() {
+        waitForElementToAppear(personalDetails); // You already have this locator!
+        return personalDetails.isDisplayed();
+    }
+
+    public String getToastMessage() {
+        // OrangeHRM Toast Locator
+        By toast = By.cssSelector(".oxd-toast-content-text");
+        waitForElementToAppear(driver.findElement(toast));
+        return driver.findElement(toast).getText();
     }
 
     public void clickJobPage() {
@@ -282,16 +289,24 @@ public class PIMPage extends AbstractComponents {
 
 
     public void addEmployee(String firstName, String middleName, String lastName, String userName,
-                            String pass, String confirmPass, String empID, String jobTitle, String employmentStatus,
-                            String terminationDate, String terminationReason) throws InterruptedException {
+                            String pass, String confirmPass, String jobTitle, String employmentStatus,
+                            String terminationDate, String terminationReason, String employeeID) throws InterruptedException {
 
         waitForElementToAppear(addButton);
         addButton.click();
+        waitForSpinnerToDisappear();
         waitForElementToAppear(firstNameEle);
         firstNameEle.sendKeys(firstName);
         middleNameEle.sendKeys(middleName);
         lastNameEle.sendKeys(lastName);
-        loginDetailsRadioButton.click();
+
+        waitForElementToBeClickable(loginDetailsRadioButton);
+        try {
+            loginDetailsRadioButton.click();
+        } catch (Exception e) {
+            // Fallback to JS click if the spinner is still being stubborn
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", loginDetailsRadioButton);
+        }
         waitForElementToAppear(userNameEle);
         userNameEle.sendKeys(userName);
         passwordEle.sendKeys(pass);

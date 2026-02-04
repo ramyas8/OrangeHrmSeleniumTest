@@ -29,14 +29,25 @@ maintainability.
 ### Project Structure
 
 ```text
-src
-├── main/java
-│   ├── orangehrmpages              # Page Objects & Business Logic
-│   └── orangehrmabstractcomponents # Reusable UI helpers
-├── test/java
-│   ├── orangehrmtests              # TestNG Suites
-│   └── orangehrmtestcomponents     # BaseTest & Excel Data Utilities
-└── OrangeHrmData.xlsx              # External Data Source
+.
+├── pom.xml                        # Maven dependencies & build config
+├── testng.xml                     # Test execution suite & parallel config
+├── README.md                      # Project documentation
+├── reports/                       # Generated ExtentReports & Screenshots
+└── src/
+    ├── main/
+    │   ├── java/
+    │   │   ├── orangehrmpages/              # Page Object Classes (POM)
+    │   │   ├── orangehrmabstractcomponents/ # Reusable UI & Excel utilities
+    │   │   └── orangehrmresources/          # Extent Reporting logic
+    │   └── resources/
+    │       ├── GlobalData.properties        # Env config (Browser, URL)
+    │       └── data/
+    │           └── OrangeHrmData.xlsx       # External Test Data (Excel)
+    └── test/
+        └── java/
+            ├── orangehrmtests/              # Actual TestNG Test Cases
+            └── orangehrmtestcomponents/     # BaseTest & Listeners
 ```
 
 ### Tech Stack

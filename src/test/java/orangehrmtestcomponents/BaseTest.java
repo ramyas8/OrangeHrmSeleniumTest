@@ -26,7 +26,7 @@ public class BaseTest {
 
     public WebDriver driver;
     public LoginPage loginPage;
-    Properties prop;
+    public Properties prop;
 
 
     public void loadProperties() throws IOException {
@@ -103,21 +103,23 @@ public class BaseTest {
         driver = initializeDriver();
         loginPage = new LoginPage(driver);
         loginPage.goTo();
-        String user = prop.getProperty("username");
-        String pass = prop.getProperty("password");
-        loginPage.login(user, pass);
     }
 
-//    public void doLogin() throws IOException, InterruptedException {
-//
-//        loadProperties();
-//        String user = prop.getProperty("username");
-//        String pass = prop.getProperty("password");
-//        loginPage.login(user, pass);
-//
-//    }
+    public void loginAndNavigateTo(String moduleName, String username, String password) throws InterruptedException {
+        String currentUrl = driver.getCurrentUrl();
 
-    @AfterMethod
+        // If we are on the login page, perform login using Excel data
+        if (currentUrl.contains("auth/login")) {
+            loginPage.login(username, password);
+        }
+        // If we are logged in but as the WRONG user, we should logout (Optional but safer)
+
+        // Use the generic menu selector from AbstractComponents (inherited by loginPage)
+        loginPage.selectMenu(moduleName);
+    }
+
+
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
 
         if (driver != null) {

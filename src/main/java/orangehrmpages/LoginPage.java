@@ -27,7 +27,7 @@ public class LoginPage extends AbstractComponents {
     @FindBy(xpath = "//button[@type='submit']")
     WebElement loginButton;
 
-    @FindBy(xpath = "//p[text()='Invalid credentials']")
+    @FindBy(css = ".oxd-alert-content-text")
     WebElement errorMessage;
 
     @FindBy(xpath = "//input[@name='username']/parent::div/following-sibling::span")
@@ -36,18 +36,22 @@ public class LoginPage extends AbstractComponents {
     @FindBy(xpath = "//input[@name='password']/parent::div/following-sibling::span")
     WebElement passwordRequiredMessage;
 
-    @FindBy(xpath = "//span[text()='Dashboard']")
+    @FindBy(xpath = "//h6[contains(., 'Dashboard')]")
     WebElement dashboard;
 
-    @FindBy(xpath = "//p[text()='Forgot your password? ']")
+    @FindBy(xpath = "//p[contains(@class, 'login-forgot-header')]")
     WebElement forgotYourPassword;
 
     public void login(String username, String password) throws InterruptedException {
 
+        waitForUrlToContain("login");
+        waitForElementToAppear(userName);
         userName.sendKeys(username);
         passwordEle.sendKeys(password);
+        waitForElementToBeClickable(loginButton);
         loginButton.click();
     }
+
 
     public String getErrorMessage() {
         waitForElementToAppear(errorMessage);
@@ -64,7 +68,6 @@ public class LoginPage extends AbstractComponents {
         return passwordRequiredMessage.getText();
     }
 
-
     public boolean isDashboardDisplayed() {
         waitForElementToAppear(dashboard);
         return dashboard.isDisplayed();
@@ -76,6 +79,7 @@ public class LoginPage extends AbstractComponents {
     }
 
     public void clickForgotYourPassword() {
+        waitForElementToBeClickable(forgotYourPassword);
         forgotYourPassword.click();
     }
 
