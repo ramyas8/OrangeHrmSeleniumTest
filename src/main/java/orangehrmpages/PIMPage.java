@@ -312,7 +312,7 @@ public class PIMPage extends AbstractComponents {
         passwordEle.sendKeys(pass);
         confirmPasswordEle.sendKeys(confirmPass);
         saveButton.click();
-        waitForPersonalDetails();
+        //waitForPersonalDetails();
 
     }
 
@@ -367,7 +367,7 @@ public class PIMPage extends AbstractComponents {
         });
 
 
-        waitForPersonalDetails();
+        //waitForPersonalDetails();
         wait.until(ExpectedConditions.elementToBeClickable(lp_jobTab)).click();
         waitForJobSectionToLoad();
         selectFromOrangeDropdown(jobTitleDropdown, jobTitle);
@@ -391,7 +391,7 @@ public class PIMPage extends AbstractComponents {
                 return false; // Loop will try again until timeout
             }
         });
-        waitForPersonalDetails();
+        //waitForPersonalDetails();
 
         wait.until(ExpectedConditions.elementToBeClickable(lp_jobTab)).click();
         waitForJobSectionToLoad();
